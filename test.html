@@ -1,0 +1,54 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+
+    <script>
+        var fb = new Firebase("<fbio>");
+
+        function push()
+        {
+            var id = Math.floor(Math.random() * 100);
+            var kidRef = fb.child("<students>").child(id);
+
+            kidRef.set(
+                        {
+                            id: id,
+                            title: "Hello World! 4",
+                            author: "Firebase new",
+                            location: {
+                            city: "San Clara",
+                            state: "California",
+                            zip: 95110
+                            }
+                        }
+                   
+                    );
+            console.log(id);
+        }
+
+        function get()
+        {
+            var id = jQuery('#txtId').val();
+            // fb.equalTo(id).on("value", function(snapshot) {
+            //   console.log(snapshot.key());
+            // });
+
+            fb.child('students/'+id).once('value', function(snap) {
+                   console.log( snap.val() );
+               });
+
+            // fb.child('user').orderByChild('emailAddress').equalTo(emailAddress).once('value', function(snap) {
+            //     callback( snap.val() );
+            // });
+        }
+    </script>
+</head>
+<body>
+    <input type="file" name="image" accept="image/*;" capture="camera">
+    <input type="submit" value="Upload">
+    <button onclick="push()">Push</button>
+    <input type="text" id="txtId">
+    <button onclick="get()">Get</button>
+</body>
+</html>
